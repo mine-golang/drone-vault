@@ -1,0 +1,64 @@
+---
+kind: pipeline
+type: docker
+name: default
+
+steps:
+- name: build
+  image: golang:1.17
+  commands:
+  - sh scripts/build.sh
+
+- name: publish_amd64
+  image: plugins/docker:latest
+  settings:
+    auto_tag: true
+    auto_tag_suffix: linux-amd64
+    dockerfile: docker/Dockerfile.linux.amd64
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    repo: drone/vault/v
+  when:
+    branch:
+    - master
+    event:
+    - push
+    - tag
+
+- image: plugins/docker:latest
+  name: publish_arm64
+  settings:
+    auto_tag: true
+    auto_tag_suffix: linux-arm64
+    dockerfile: docker/Dockerfile.linux.arm64
+    password:
+      from_secret: docker_password
+    repo: drone/vault/v
+    username:
+      from_secret: docker_username
+  when:
+    branch:
+    - master
+    event:
+    - push
+    - tag
+
+- name: publish_arm
+  image: plugins/docker:latest
+  settings:
+    auto_tag: true
+    auto_tag_suffix: linux-arm
+    dockerfile: docker/Dockerfile.linux.arm
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    repo: drone/vault/v
+  when:
+    branch:
+    - master
+    event:
+    - push
+    - tag
