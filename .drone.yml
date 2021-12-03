@@ -12,6 +12,7 @@ steps:
 - name: publish_amd64
   image: plugins/docker:latest
   settings:
+    registry: docker.io
     auto_tag: true
     auto_tag_suffix: linux-amd64
     dockerfile: docker/Dockerfile.linux.amd64
@@ -30,6 +31,7 @@ steps:
 - image: plugins/docker:latest
   name: publish_arm64
   settings:
+    registry: docker.io
     auto_tag: true
     auto_tag_suffix: linux-arm64
     dockerfile: docker/Dockerfile.linux.arm64
@@ -48,6 +50,7 @@ steps:
 - name: publish_arm
   image: plugins/docker:latest
   settings:
+    registry: docker.io
     auto_tag: true
     auto_tag_suffix: linux-arm
     dockerfile: docker/Dockerfile.linux.arm
