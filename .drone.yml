@@ -20,7 +20,6 @@ steps:
     password:
       from_secret: docker_password
     repo: wssio/drone-vault
-    registry: hub.docker.com
   when:
     branch:
     - main
@@ -39,7 +38,6 @@ steps:
     repo: wssio/drone-vault
     username:
       from_secret: docker_username
-    registry: hub.docker.com
   when:
     branch:
     - main
@@ -58,7 +56,6 @@ steps:
     password:
       from_secret: docker_password
     repo: wssio/drone-vault
-    registry: hub.docker.com
   when:
     branch:
     - main
