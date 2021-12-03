@@ -7,7 +7,6 @@ package plugin
 import (
 	"context"
 	"errors"
-	"fmt"
 	"regexp"
 
 	"github.com/drone/drone-go/drone"
@@ -65,7 +64,6 @@ func (p *plugin) Find(ctx context.Context, req *secret.Request) (*drone.Secret, 
 	// using the X-Drone-Events secret key. Check for this
 	// user-defined filter logic.
 	events := extractEvents(params)
-	fmt.Println(events)
 	if !match(req.Build.Event, events) {
 		err := errors.New("access denied: event does not match")
 		logrus.Errorln(err)
