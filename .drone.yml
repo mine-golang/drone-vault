@@ -19,7 +19,7 @@ steps:
       from_secret: docker_username
     password:
       from_secret: docker_password
-    repo: drone/vault/v
+    repo: wssio/drone-vault
   when:
     branch:
     - master
@@ -35,7 +35,7 @@ steps:
     dockerfile: docker/Dockerfile.linux.arm64
     password:
       from_secret: docker_password
-    repo: drone/vault/v
+    repo: wssio/drone-vault
     username:
       from_secret: docker_username
   when:
@@ -55,7 +55,7 @@ steps:
       from_secret: docker_username
     password:
       from_secret: docker_password
-    repo: drone/vault/v
+    repo: wssio/drone-vault
   when:
     branch:
     - master
