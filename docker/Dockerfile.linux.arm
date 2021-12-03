@@ -8,5 +8,5 @@ ENV GODEBUG netdns=go
 
 COPY --from=alpine /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
-ADD release/linux/arm/drone-vault /bin/
+ADD release/arm/drone-vault /bin/
 ENTRYPOINT ["/bin/drone-vault"]
