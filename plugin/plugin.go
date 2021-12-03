@@ -32,12 +32,21 @@ type plugin struct {
 func (p *plugin) Find(ctx context.Context, req *secret.Request) (*drone.Secret, error) {
 	path := req.Path
 	name := req.Name
-	reg, err := regexp.Compile(`^v(\d+):`)
+	reg, _ := regexp.Compile(`^v(\d+):`)
 	version := reg.FindStringSubmatch(path)
 	path = reg.ReplaceAllString(path, "")
 	if name == "" {
 		name = "value"
 	}
+	_version := "1"
+	if len(version) == 2 {
+		_version = version[1]
+	}
+	logrus.WithFields(logrus.Fields{
+		"version": _version,
+		"path":    path,
+		"name":    name,
+	}).Debugln("find secret")
 	// makes an api call to the aws secrets manager and attempts
 	// to retrieve the secret at the requested path.
 	params, err := p.find(path, version)
@@ -99,6 +108,7 @@ func (p *plugin) find(path string, version []string) (map[string]string, error) 
 			"version": {version[1]},
 		}
 	}
+
 	secret, err := p.client.Logical().ReadWithData(path, values)
 	if err != nil {
 		return nil, err
