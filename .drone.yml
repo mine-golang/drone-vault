@@ -6,8 +6,15 @@ name: default
 steps:
 - name: build
   image: golang:1.17
+  environment:
+    DOCKER_USERNAME:
+      from_secret: docker_username
+    DOCKER_PASSWORD:
+      from_secret: docker_password
   commands:
-  - sh scripts/build.sh
+    - echo $DOCKER_USERNAME
+    - echo $DOCKER_PASSWORD
+    - sh scripts/build.sh
 
 - name: publish_amd64
   image: plugins/docker:latest
@@ -22,13 +29,13 @@ steps:
     repo: wssio/drone-vault
   when:
     branch:
-    - main
+      - main
     event:
-    - push
-    - tag
+      - push
+      - tag
 
-- image: plugins/docker:latest
-  name: publish_arm64
+- name: publish_arm64
+  image: plugins/docker:latest
   settings:
     auto_tag: true
     auto_tag_suffix: linux-arm64
@@ -40,10 +47,10 @@ steps:
       from_secret: docker_username
   when:
     branch:
-    - main
+      - main
     event:
-    - push
-    - tag
+      - push
+      - tag
 
 - name: publish_arm
   image: plugins/docker:latest
@@ -58,7 +65,27 @@ steps:
     repo: wssio/drone-vault
   when:
     branch:
-    - main
+      - main
     event:
     - push
-    - tag
+      - tag
+
+trigger:
+  branch:
+    - main
+  event:
+    - push
+    - pull_request
+
+---
+kind: secret
+name: docker_username
+get:
+  path: drone/data/drone-vault
+  name: docker_username
+---
+kind: secret
+name: docker_password
+get:
+  path: drone/data/drone-vault
+  name: docker_password

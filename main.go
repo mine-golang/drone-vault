@@ -36,8 +36,8 @@ type config struct {
 	Secret             string        `envconfig:"DRONE_SECRET"`
 	VaultAddr          string        `envconfig:"VAULT_ADDR"`
 	VaultToken         string        `envconfig:"VAULT_TOKEN"`
-	VaultRenew         time.Duration `envconfig:"VAULT_TOKEN_RENEWAL"`
-	VaultTTL           time.Duration `envconfig:"VAULT_TOKEN_TTL"`
+	VaultRenew         time.Duration `envconfig:"VAULT_TOKEN_RENEWAL" default:"84h"`
+	VaultTTL           time.Duration `envconfig:"VAULT_TOKEN_TTL" default:"168h"`
 	VaultAuthType      string        `envconfig:"VAULT_AUTH_TYPE"`
 	VaultAuthMount     string        `envconfig:"VAULT_AUTH_MOUNT_POINT"`
 	VaultApproleID     string        `envconfig:"VAULT_APPROLE_ID"`
