@@ -37,7 +37,7 @@ func (p *plugin) Find(ctx context.Context, req *secret.Request) (*drone.Secret, 
 	if name == "" {
 		name = "value"
 	}
-	_version := "1"
+	_version := "latest"
 	if len(version) == 2 {
 		_version = version[1]
 	}
