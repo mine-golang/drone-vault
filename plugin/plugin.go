@@ -50,13 +50,22 @@ func (p *plugin) Find(ctx context.Context, req *secret.Request) (*drone.Secret, 
 	// to retrieve the secret at the requested path.
 	params, err := p.find(path, version)
 	if err != nil {
-		logrus.Errorln(err)
+		logrus.WithFields(logrus.Fields{
+			"version": _version,
+			"path":    path,
+			"name":    name,
+		}).Errorln(err)
 		return nil, err
 	}
 	value, ok := params[name]
 	if !ok {
 		err := errors.New("secret key not found")
-		logrus.Errorln(err)
+		logrus.WithFields(logrus.Fields{
+			"version": _version,
+			"path: ":  path,
+			"name":    name,
+			"params":  params,
+		}).Errorln(err)
 		return nil, err
 	}
 
@@ -66,7 +75,7 @@ func (p *plugin) Find(ctx context.Context, req *secret.Request) (*drone.Secret, 
 	events := extractEvents(params)
 	if !match(req.Build.Event, events) {
 		err := errors.New("access denied: event does not match")
-		logrus.Errorln(err)
+		logrus.WithField("events: ", events).Errorln(err)
 		return nil, err
 	}
 
@@ -76,7 +85,7 @@ func (p *plugin) Find(ctx context.Context, req *secret.Request) (*drone.Secret, 
 	repos := extractRepos(params)
 	if !match(req.Repo.Slug, repos) {
 		err := errors.New("access denied: repository does not match")
-		logrus.Errorln(err)
+		logrus.WithField("repos: ", repos).Errorln(err)
 		return nil, err
 	}
 
@@ -86,7 +95,7 @@ func (p *plugin) Find(ctx context.Context, req *secret.Request) (*drone.Secret, 
 	branches := extractBranches(params)
 	if !match(req.Build.Target, branches) {
 		err := errors.New("access denied: branch does not match")
-		logrus.Errorln(err)
+		logrus.WithField("branches: ", branches).Errorln(err)
 		return nil, err
 	}
 
