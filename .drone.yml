@@ -6,14 +6,7 @@ name: default
 steps:
 - name: build
   image: golang:1.17
-  environment:
-    DOCKER_USERNAME:
-      from_secret: docker_username
-    DOCKER_PASSWORD:
-      from_secret: docker_password
   commands:
-    - echo $DOCKER_USERNAME
-    - echo $DOCKER_PASSWORD
     - sh scripts/build.sh
 
 - name: publish_amd64
@@ -76,16 +69,3 @@ trigger:
   event:
     - push
     - pull_request
-
----
-kind: secret
-name: docker_username
-get:
-  path: v2:drone/data/drone-vault
-  name: docker_username
----
-kind: secret
-name: docker_password
-get:
-  path: v2:drone/data/drone-vault
-  name: docker_password
