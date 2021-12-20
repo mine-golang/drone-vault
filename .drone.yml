@@ -60,12 +60,5 @@ steps:
     branch:
       - main
     event:
-    - push
+      - push
       - tag
-
-trigger:
-  branch:
-    - main
-  event:
-    - push
-    - pull_request
