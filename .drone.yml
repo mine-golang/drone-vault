@@ -62,3 +62,4 @@ steps:
     event:
       - push
       - tag
+
