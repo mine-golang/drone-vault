@@ -81,7 +81,7 @@ trigger:
 kind: secret
 name: docker_username
 get:
-  path: drone/data/drone-vault
+  path: drone/data/drone-vault1
   name: docker_username
 ---
 kind: secret
